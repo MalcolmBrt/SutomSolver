@@ -1,7 +1,7 @@
 def solveur(mot_a_trou: str, mot_déjà_écrit: list = [], lettres_interdites: set = set(), lettres_mal_placés: set = set()):
     liste_mot = []
     mot_a_trou = mot_a_trou.replace(" ", "")
-    with open(r"C:\Users\malco\Dropbox\Informatique\SutomSolver\mots.txt", "r", encoding="utf-8") as f:
+    with open("mots.txt", "r", encoding="utf-8") as f:
         # Parcourez chaque ligne du fichier
         for ligne in f:
                 ligne = ligne.strip()
