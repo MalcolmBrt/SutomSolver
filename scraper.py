@@ -57,16 +57,16 @@ def run():
     i = 1
     while True:
         if sutom.find_elements(By.CLASS_NAME, "fin-de-partie-panel-phrase") == []: # Vérifier que la partie n'est pas encore finie
-            logger.info(config[execution_language]["test_number"] + str(nb_essai) + ".")
             row = sutom.find_element(By.XPATH, f"//table/tr[{i}]")
             row_text = row.text.lower()
             mot_possible = solveur(row_text, mot_déjà_écrit, lettres_interdites, lettres_mal_placés)
+            logger.info(config[execution_language]["test_number"] + str(nb_essai) + " " + config[execution_language]["with"] + " " + mot_possible[0] + ".")
             if mot_possible == []:
                 logger.error(config[execution_language]["non_existent_word"])
                 break
             mot_déjà_écrit.append(mot_possible[0]) # inverser 2 lignes haut bas
             body_page.send_keys(mot_possible[0], Keys.ENTER)
-            sleep(2)
+            sleep(3)
             for element in sutom.find_elements(By.CLASS_NAME, "lettre-non-trouve"):
                 lettres_interdites.add(element.text.lower())
             liste_td = sutom.find_elements(By.XPATH, f'//*[@id="grille"]/table/tr[{i}]/td')
