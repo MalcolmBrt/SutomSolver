@@ -54,10 +54,9 @@ def run():
     lettres_mal_placés = set()
     mot_déjà_écrit = []
     nb_essai = 1
-    i = 1
     while True:
         if sutom.find_elements(By.CLASS_NAME, "fin-de-partie-panel-phrase") == []: # Vérifier que la partie n'est pas encore finie
-            row = sutom.find_element(By.XPATH, f"//table/tr[{i}]")
+            row = sutom.find_element(By.XPATH, f"//table/tr[{nb_essai}]")
             row_text = row.text.lower()
             mot_possible = solveur(row_text, mot_déjà_écrit, lettres_interdites, lettres_mal_placés)
             logger.info(config[execution_language]["test_number"] + str(nb_essai) + " " + config[execution_language]["with"] + " " + mot_possible[0] + ".")
@@ -69,18 +68,11 @@ def run():
             sleep(3)
             for element in sutom.find_elements(By.CLASS_NAME, "lettre-non-trouve"):
                 lettres_interdites.add(element.text.lower())
-            liste_td = sutom.find_elements(By.XPATH, f'//*[@id="grille"]/table/tr[{i}]/td')
+            liste_td = sutom.find_elements(By.XPATH, f'//*[@id="grille"]/table/tr[{nb_essai}]/td')
             for n in range(len(liste_td)):
                 if liste_td[n].get_attribute("class") == "mal-place resultat":
                     lettres_mal_placés.add((liste_td[n].text.lower(), n))
             nb_essai += 1
-            if i == 6:
-                sutom.quit()
-                sutom = webdriver.Chrome(options=options)
-                sutom.get("https://sutom.nocle.fr")
-                i = 1
-            else:
-                i += 1
         else:
             logger.info(config[execution_language]["i_found"] + " " + str(mot_possible[0]) + ".")
             break
